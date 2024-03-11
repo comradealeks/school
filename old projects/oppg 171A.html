@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #colorBox{
+            height: 50px;
+            width: 50px;
+            border: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="ranges">
+        <input id="reds" type="range" max="255" min="0" value="0">
+        <input id="greens" type="range" max="255" min="0" value="0">
+        <input id="blues" type="range" max="255" min="0" value="0">
+    </div>
+    <div id="rgbPreview"></div>
+    <button onclick="NewColor()">Add this color</button>
+    <div id="colorField"></div>
+    <script>
+        //Model
+        const colorCodes = {red: 0, green: 0, blue: 0};
+        var rgbDisplay = document.getElementById("rgbPreview");
+        var range1 = document.getElementById('reds');
+        var range2 = document.getElementById('greens');
+        var range3 = document.getElementById('blues');
+
+        //controller
+        function NewColor() {
+            colorCodes.red = document.getElementById("reds").value
+            colorCodes.green = document.getElementById("greens").value
+            colorCodes.blue = document.getElementById("blues").value
+            ColorMaker()
+        }
+
+        function ColorMaker() {
+            color = "rgb(" + colorCodes.red + "," + colorCodes.green + "," + colorCodes.blue + ")"
+
+            updateView(color)
+        }
+
+        //View
+        function updateView(RGB) {
+            document.getElementById("colorField").innerHTML /*HTML*/ += `
+            <div id="colorBox" style="background-color: ${RGB};"></div>
+            <div id="colorCode"> ${RGB} </div>
+            `;
+        }
+
+        //denne delen bare legger til verdiene som er i rangen (ikke egentlig nødvendig, bare lettere å se)
+        function displayRGBValues() {
+            updateRGBDisplay();
+
+            range1.addEventListener('input', updateRGBDisplay);
+            range2.addEventListener('input', updateRGBDisplay);
+            range3.addEventListener('input', updateRGBDisplay);
+        }
+        function updateRGBDisplay() {
+                let red = range1.value;
+                let green = range2.value;
+                let blue = range3.value;
+                let rgb = "RGB(" + red + "," + green + ", " + blue + ")"
+                rgbDisplay.textContent = rgb;
+                rgbDisplay.style = "background-color: " +  rgb
+        };
+
+        displayRGBValues();
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .counterndpic {
+            font-size: 600%;
+            user-select: none;
+        }
+        .green {
+            color: green;
+        }
+        .yellow {
+            color: rgb(255, 208, 0);
+        }
+        .red {
+            color: red;
+        }
+        .blue {
+            color: blue;
+        }
+        .greenbc {
+            background-color: green;
+        }
+        .yellowbc {
+            background-color: rgb(255, 208, 0);
+        }
+        .redbc {
+            background-color: red;
+        }
+        .bluebc {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="colorbutton"></div>
+    <script>
+        // model
+        var points = 0;
+        var pointsPerClick = 1;
+        var smileyIndex = 0;
+        var jukset = 'ikke jukset'
+
+        // controller
+        function doClick() {
+            points += pointsPerClick;
+            smileyIndex = 1 - smileyIndex;
+            updateView(jukset);
+        }
+
+        function cheating() {
+            points = points * 10;
+            pointsPerClick = pointsPerClick * 10
+            jukset = 'jukset'
+            updateView(jukset)
+        }
+
+        function buyUpgrade() {
+            if (points < 10) return;
+            points -= 10;
+            pointsPerClick++;
+            updateView(jukset);
+        }
+
+        function add_div(backgroundcolor, fontcolor) {
+            colorchoice = document.getElementById('colorbutton').innerHTML+=/*HTML*/`
+                <div Class= "${backgroundcolor} ${fontcolor}">COLOR</div>
+                `;
+        }
+
+        // view
+        updateView();
+        function updateView(jukset) {
+            var smiley = smileyIndex == 0 ? '😀' : '😁';
+            document.getElementById('app').innerHTML = /*HTML*/`
+                <div id="jukset"></div>
+                <div id="image" class="counterndpic" onclick="doClick()">${smiley}</div>
+                <div id="pointsInfo" class="counterndpic">${points}</div>
+                <button onclick="buyUpgrade()">Kjøp oppgradering (10 poeng)</button>
+                <button onclick="cheating()">jukse knapp, ikke klikk</button>
+                <button onclick="add_div(bccolors.value, colors.value)">Legg til div</button>
+                <div>bakgrunnsfarge</div>
+                <select name="BCColors" id="bccolors">
+                    <option value="redbc">Rød</option>
+                    <option value="bluebc">Blå</option>
+                    <option value="greenbc">Grønn</option>
+                    <option value="yellowbc">gul</option>
+                </select>
+                <div style="font-size=10px">tekstfarge</div>
+                <select name="Colors" id="colors">
+                    <option value="red">Rød</option>
+                    <option value="blue">Blå</option>
+                    <option value="green">Grønn</option>
+                    <option value="yellow">gul</option>
+                </select>
+                
+            `;
+            if (jukset == 'jukset') {
+                document.getElementById('jukset').innerText="Du har jukset!!!!!!"
+            }
+        }
+
+    </script>
+</body>
+
+</html>

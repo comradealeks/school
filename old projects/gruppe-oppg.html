@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 205px);
+            
+        }
+        .inner {
+            background-color: rgba(170, 170, 170, 0.8);
+            border: 5px solid rgba(0, 0, 0, 0.8);
+            display:flex;
+            align-items:center;
+            justify-content: center;
+        }
+        .imgsize{
+            width: 195px;
+            height: auto;
+            
+        }
+    </style>
+</head>
+<body>
+
+    <div id= "all" class="grid">
+        <div class="inner" onclick="show('dog0')"><img id="dog0"  style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/dog.jpg"></div>
+        <div class="inner" onclick="show('frog0')"><img id="frog0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/frog.jpg"></div>
+        <div class="inner" onclick="show('horse0')"><img id="horse0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/horse.jpg"></div>
+        <div class="inner" onclick="show('chicken0')"><img id="chicken0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/chicken.jpg"></div>
+        <div class="inner" onclick="show('spider0')"><img id="spider0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/spider.jpg"></div>
+        <div class="inner" onclick="show('frog2')"><img id="frog2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/frog.jpg"></div>
+        <div class="inner" onclick="show('spider2')"><img id="spider2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/spider.jpg"></div>
+        <div class="inner" onclick="show('tiger0')"><img id="tiger0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/tiger.jpg"></div>
+        <div class="inner" onclick="show('chicken2')"><img id="chicken2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/chicken.jpg"></div>
+        <div class="inner" onclick="show('dog2')"><img id="dog2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/dog.jpg"></div>
+        <div class="inner" onclick="show('elephant0')"><img id="elephant0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/elephant.jpg"></div>
+        <div class="inner" onclick="show('cat0')"><img id="cat0" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/cat.gif"></div>
+        <div class="inner" onclick="show('cat2')"><img id="cat2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/cat.gif"></div>
+        <div class="inner" onclick="show('elephant2')"><img id="elephant2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/elephant.jpg"></div>
+        <div class="inner" onclick="show('horse2')"><img id="horse2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/horse.jpg"></div>
+        <div class="inner" onclick="show('tiger2')"><img id="tiger2" style="visibility: hidden" class="imgsize" src="https://getacademy.github.io/PictureLottox/img/tiger.jpg"></div>
+    </div>
+
+    <script>
+        var id1 = undefined
+        function show(clicked_id){
+            document.getElementById(clicked_id).style.visibility='visible';
+            var id2 = clicked_id
+
+            if (id1 == undefined) {
+                cg(clicked_id);
+            };
+            if (id1 !== id2 && id1.slice(0,-1) == id2.slice(0,-1)) {
+                cg(undefined);
+            } else if (id1 !== id2){
+                document.getElementById(clicked_id).style.visibility='hidden';
+                document.getElementById(id1).style.visibility='hidden';
+                cg(undefined)
+            }
+
+        }
+        function cg(newval){
+            id1 = newval
+        }
+
+    </script>
+</body>
+</html>

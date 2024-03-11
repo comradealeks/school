@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="mother"></div>
+    <script>
+        //Model
+        var endre = false
+        var statement = false
+        var htmlText = document.getElementById("mother")
+        var nameText = ""
+        var DateText = ""
+        var OppgListe = [
+            {tekst: "Oppgave 172 A", doneDate: "Tue Mar 05 2024", check: "checked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 B", doneDate: "Tue Mar 05 2024", check: "checked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 C", doneDate: "Tue Mar 05 2024", check: "checked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 D", doneDate: "Tue Mar 05 2024", check: "checked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 E", doneDate: "Tue Mar 05 2024", check: "checked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 F", doneDate: null, check: "unchecked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 G", doneDate: null, check: "unchecked", responsible: "Aleksander"},
+            {tekst: "Oppgave 172 H", doneDate: null, check: "unchecked", responsible: "Aleksander"}
+        ];
+
+        //Controller
+        function addOppg(texten, ansvarlig) {
+            OppgListe.push({tekst: texten, doneDate: null, check: "unchecked", responsible: ansvarlig})
+            listMaker()
+        }
+        function removeOppg(){
+           var filter = OppgListe.filter(item => item.check !== "checked");
+            OppgListe = filter
+            listMaker()
+        }
+        function rediger(element) {
+            let IDo = "oppg_" + element
+            let IDa = "arbeider_" + element
+            let oppg = document.getElementById(IDo)
+            let arbeid = document.getElementById(IDa)
+            let oppgEl = oppg.value
+            let arbeidEl = arbeid.value
+
+            OppgListe[element].tekst = oppgEl
+            OppgListe[element].responsible = arbeidEl
+            listMaker()
+        }
+        function listMaker(change) {
+            if (change != undefined) {
+                if (OppgListe[change].doneDate == null) {
+                    let date = new Date();
+                    let localTime = date.toDateString();
+                    OppgListe[change].doneDate = localTime
+                    OppgListe[change].check = "checked"
+                } else {
+                    OppgListe[change].doneDate = null
+                    OppgListe[change].check = "unchecked"
+                }   
+            }
+            RemoveView()
+            addChoices()
+            NormalView()
+            let listElements = OppgListe.length;
+            for (let element = 0; element < listElements; element++) {
+                let oppg = OppgListe[element].tekst;
+                let dato = "ferdig: " + OppgListe[element].doneDate;
+                let arbeider = OppgListe[element].responsible;
+                let checked = OppgListe[element].check;
+                
+                if (dato == "ferdig: null") {dato = "Ikke ferdig"}
+                var change_buttons = " "
+                if (endre == true) {
+                    change_buttons = "<button onclick='rediger("+ element +")'>rediger</button>"
+                }
+
+                let text = "<li>" + 
+                    change_buttons +
+                    "<input type='checkbox' " + checked + " oninput='listMaker(" + element + ")'></input> " + 
+                    "<input id='oppg_" + element +"' value='" + oppg + "'> - "  + 
+                    "<input id='arbeider_" + element +"' value='" + arbeider + "'>" + 
+                    " - " + dato + "</li>";
+                    
+                TaskView(text)
+            };
+        }
+        function endre_knapp() {
+            if (endre == true) {
+                endre = false
+            } else {
+                endre = true
+            }
+            listMaker()
+        }
+        function addChoices() {
+            var uniqueNames = [];
+            var Dates = []
+            nameText = ""
+            DateText = ""
+            let listElements = OppgListe.length;
+            for (let element = 0; element < listElements; element++) {
+                let name = OppgListe[element].responsible;
+                if (!uniqueNames.includes(name)) {
+                    uniqueNames.push(name);
+                    nameText += "<option value='" + name + "'>" + name + "</option>"
+                }
+                let date = OppgListe[element].doneDate;
+                if (!Dates.includes(date) && date != null) {
+                    Dates.push(date);
+                    DateText += "<option value='" + date + "'>" + date + "</option>"
+                }
+            }
+        }
+
+        // gonna have to sort this, but am not feeling well so will do it later
+        function responsible_sort() {
+            let box = document.getElementById("dropdownBox_name")
+            if (box.value != "name") {
+                
+            }
+        }
+        function doneDate_sort() {
+             
+        }
+        
+        function paging(){
+
+        }
+
+        //View
+        listMaker()
+        function NormalView() {
+            htmlText.innerHTML = /*HTML*/ `
+            <label for="txt">Oppg navn: </label>
+            <input id="txt"> <br>
+            <label for="resp">Ansvarlige: </label>
+            <input id="resp"> <br>
+            <button onclick="addOppg(txt.value, resp.value)">legg til oppgave</button>
+            <button onclick="removeOppg()">fjern ferdige</button>
+            <button onclick="endre_knapp()">endre</button>
+            <select oninput="responsible_sort()" id="dropdownBox_name">
+                <option value="name">Name</option>
+                ${nameText}
+            </select>
+            <select oninput="" id="dropdownBox_date">
+                <option value="date">Date</option>
+                ${DateText}
+            </select>
+            `;
+        }
+        function TaskView(text){
+            addChoices()
+            htmlText.innerHTML += /*HTML*/ ` 
+            ${text}
+            `;
+        }
+        function RemoveView(){
+            document.getElementById("mother").innerHTML = ``;
+        }
+
+    </script>
+</body>
+</html>

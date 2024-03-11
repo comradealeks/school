@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sussy</title>
+
+
+    <style>
+    body {
+        margin-left: 20px;
+    }
+
+    .card {
+        width:500px;
+        background-color: lightgray;
+        border: 1px solid darkgray;
+        margin: 10px;
+    }
+    .innerCard{
+        padding: 10px;
+    }
+
+    .img{
+        width: 448px;
+        height: 500px;
+    }
+
+    .img2{
+        width: 248px;
+        height: 300px;
+    }
+
+    .img3{
+        width: auto;
+        height: 300px;
+    }
+
+    .button{
+        width: 500px;
+        height: 50px;
+    }
+
+    .bodies{
+        display: flex;
+        flex-direction: column;
+        align-items:center
+    }
+    .header {
+        color: white;
+        text-align: center;
+        font-size: x-large;
+        padding: 1% solid gray;
+        user-select: none;
+    }
+    .green {
+        background-color: green;
+    }
+    .yellow {
+        background-color: rgb(255, 208, 0);
+    }
+    .red {
+        background-color: red;
+    }
+    .blue {
+        background-color: blue;
+    }
+    .black {
+        background-color: black;
+    }
+    .orange {
+        background-color: orange;
+    }
+    </style>
+</head>
+
+<body class="bodies">
+    <h1> Sussy trip</h1>
+    <div id="all">
+        <div class="card" >
+            <div class="header orange" onclick="amogusI()">Interrogate the crew</div>
+            <div id="amogusI"></div>
+        </div>
+
+        <div class="card">
+            <div class="header blue" onclick="amogus_orange()">Select your sussy baka!</div>
+            <div id="amogus2"></div>
+
+        </div>
+    </div>
+
+    <script>
+        function amogusI(){
+            close()
+            document.getElementById("amogusI").innerHTML=/*HTML*/`
+            <div class="innerCard">
+            there is something among us... but we have to find out who it is <i>impersonating</i>! 
+                <ul>
+                    <li>
+                        what do you have to say for your defence?
+                        <button style="color: blue;" onclick="blu()">
+                            Blue:
+                        </button>
+                    </li>
+                    <li>
+                        Red, what is your defence?
+                        <button style="color: red;" onclick="red()">Red:</button>
+                    </li>
+                    <li>
+                        OKAY... Orange, anything to add?
+                        <button style="color: orange;" onclick="org()">
+                            Orange:
+                        </button>
+                    </li>
+                    <div id="blu"></div>
+                </ul>
+            </div>
+            `
+        }
+
+        function blu(){
+            document.getElementById('blu').innerHTML= /*HTML*/`
+            <img class="img2" src="https://i.imgflip.com/4j23wt.jpg">
+            `
+        }
+
+        function red(){
+            document.getElementById('blu').innerHTML= /*HTML*/`
+            <img class="img2" src="https://art.pixilart.com/d6c1403c8a3a502.png">
+            `
+        }
+
+        function org(){
+            document.getElementById('blu').innerHTML= /*HTML*/`
+            <img class="img2" src="https://ih1.redbubble.net/image.1954421104.0821/flat,750x,075,f-pad,750x1000,f8f8f8.jpg">
+            `
+        }
+
+        function amogus_red(){
+            close()
+            document.getElementById('amogus2').innerHTML= /*HTML*/`
+            <div style="display:flex;">
+                <button onclick="amogus_blue()">◀</button>
+                <img class="img" src="https://assets.stickpng.com/images/61d183263a856e0004c6334a.png">
+                <button onclick="amogus_orange()">▶</button>
+            </div>
+            <button class="button" onclick="bred()">This one is the impostor!</button>
+            `
+        }
+
+        function amogus_blue(){
+            close()
+            document.getElementById('amogus2').innerHTML= /*HTML*/`
+            <div style="display:flex;">
+                <button onclick="amogus_orange()">◀</button>
+                <img class="img" src="https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_blue_icon_156941.png">
+                <button onclick="amogus_red()">▶</button>
+            </div>
+            <button class="button" onclick="bblu()">This one is the impostor!</button>
+            `
+        }
+
+        function amogus_orange(){
+            close()
+            document.getElementById('amogus2').innerHTML= /*HTML*/`
+            <div style="display:flex;">
+                <button onclick="amogus_red()">◀</button>
+                <img class="img" src="https://preview.redd.it/iio3xm4o1sn51.png?width=440&format=png&auto=webp&s=2b9fb1b29396502998feda5c6ed2ed75919c6ad8">
+                <button onclick="amogus_blue()">▶</button>
+            </div>
+            <button class="button" onclick="borg()">This one is the impostor!</button>
+            `
+        }
+
+        function borg()
+        {
+            document.getElementById("all").innerHTML = /*HTML*/`
+            <video id="tada" width="640" height="480">
+            <source src="https://foxi.me/tada/tada.mp4" type="video/mp4">
+            <source src="https://foxi.me/tada/tada.ogg" type="video/ogg">
+            `;
+            var vid = document.getElementById("tada")
+            vid.volume = 0.1;
+            vid.play();
+        }
+
+        function bred(){
+            document.getElementById('all').innerHTML= /*HTML*/`
+            <div>
+                <img class="img3" src="https://static1.srcdn.com/wordpress/wp-content/uploads/2021/01/Among-Us-Dead-Game.jpg">
+                <h1 class="bodies">You died!</h1>
+            </div>
+            `
+        }
+
+        function bblu(){
+            document.getElementById('all').innerHTML= /*HTML*/`
+            <div>
+                <img class="img3" src="https://i.ytimg.com/vi/ROan6u9Wlcs/maxresdefault.jpg">
+                <h1 class="bodies">You WIN!!!</h1>
+            </div>
+            `
+        }
+
+    function close(){
+        document.getElementById("amogusI").innerHTML=``
+        document.getElementById("amogus2").innerHTML=``
+    }
+    </script>
+
+
+
+
+
+</body>
+
+</html>

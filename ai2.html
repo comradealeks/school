@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #container {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      border: 1px solid black;
+      background-color: white;
+    }
+
+    #red-spot {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: red;
+    }
+
+    #green-spot {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: green;
+    }
+
+    #ai {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="red-spot"></div>
+    <div id="green-spot"></div>
+    <div id="ai"></div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const ai = document.getElementById('ai');
+    
+
+    let topp = 0;
+    let left = 0;
+    let direction = 'down';
+    const generations = 10; // replace with the desired number of generations
+    let currentGeneration = 1;
+    let speed = 500;
+    let moves = 10;
+    let moved = 0;
+
+    // Move the AI in the specified direction
+    function moveAI() {
+      let interval = setInterval(function() {
+        // Check if the AI has reached the green spot
+        if (topp === container.clientHeight - ai.clientHeight && left === container.clientWidth - ai.clientWidth) {
+          clearInterval(interval);
+          console.log('AI reached the green spot');
+
+        } else {
+            
+          // Check if the desired number of generations have been reached
+          if (currentGeneration === generations) {
+                console.log('All generations completed');
+                clearInterval(interval)
+          } else if (moved == moves) {
+                console.log('Starting Generation ' + (currentGeneration + 1));
+                currentGeneration++;
+                resetAI();
+                moveAI();
+          } else {
+                // Move the AI down
+                topp += 20; 
+                ai.style.top = topp + 'px';
+                moved += 1
+            }
+        }
+      }, speed);
+    }
+
+    // Reset AI box position to the starting spot
+    function resetAI() {
+      topp = 0;
+      left = 0;
+      moved = 0;
+      direction = 'down';
+      ai.style.top = topp + 'px';
+      ai.style.left = left + 'px';
+    }
+
+    moveAI();
+  </script>
+</body>
+</html>

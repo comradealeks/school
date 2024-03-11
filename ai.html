@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #container {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      border: 1px solid black;
+      background-color: white;
+    }
+
+    #red-spot {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: red;
+    }
+
+    #green-spot {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: green;
+    }
+
+    #ai {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="red-spot"></div>
+    <div id="green-spot"></div>
+    <div id="ai"></div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const ai = document.getElementById('ai');
+    const generations = 10; // replace with the desired number of generations
+
+    var speed = 500;
+
+    // Move the AI down to the green spot
+    function moveAI() {
+      let top = 0;
+      let left = 0;
+
+      let interval = setInterval(function() {
+        // Check if the AI has reached the green spot
+        if (top === container.clientHeight - ai.clientHeight && left === container.clientWidth - ai.clientWidth) {
+          clearInterval(interval);
+        } else {
+          // Move the AI down
+          top += 20; 
+          ai.style.top = top + 'px';
+
+        }
+      }, speed);
+    }
+
+    moveAI();
+  </script>
+</body>
+</html>

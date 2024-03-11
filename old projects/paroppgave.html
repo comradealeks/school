@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input  id="range" type="range" minlenght="0" maxlength="10" size="10" />
+        <input id="text" type="text">
+        <button id="gjenta" onclick="dobble_text()">gjenta</button>
+    </div>
+    <div id ="jule"></div>
+
+
+    <script>
+        var nisse = undefined
+        var mengde_nisser = 1
+        
+        function dobble_text() {
+            let verdi = document.getElementById("text").value
+            let nummer = document.getElementById("range").value
+            if (nisse != undefined) {
+                nisse = (nisse.repeat(mengde_nisser))
+            } else {nisse = verdi}
+            mengde_nisser += 1
+            if (nisse.length < nummer) {
+                variabel = document.getElementById("jule").innerText = nisse
+            }
+            
+        
+        }
+
+
+    </script>
+</body>
+</html>

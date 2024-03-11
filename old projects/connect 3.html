@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div id="brett"></div>
+    <div id="bd"></div>
+    <script>
+        // Model
+        var turn = 0
+        const board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', '']
+        ];
+
+        // View
+        updateView(board);
+        function updateView(board) {
+            let html = "";
+            let rows = 0
+            board.forEach(row => {
+                let cells = 0
+                rows++
+                html += '<div class="row">';
+                row.forEach(cell => {
+                    cells++
+                    html += `<div id="${rows}_${cells}" class="cell" onclick="XO(this.id)">${cell}</div>`;
+                });
+                html += '</div>';
+            });
+
+            document.getElementById('brett').innerHTML = html;
+        }
+
+        // Controller
+        function XO(id) {
+            let ids = id.split("_");
+            turn++;
+            if (document.getElementById(id).innerText == '') {
+                if (turn % 2 === 0) {
+                    board[ids[0] - 1][ids[1] - 1] = 'X';
+                } else {
+                    board[ids[0] - 1][ids[1] - 1] = 'O';
+                }
+            }
+            win(id, ids);
+            
+            
+
+        }
+        function win(id, ids) {
+            let row = ids[0] - 1;
+            let col = ids[1] - 1;
+            if (
+                board[row][1] != '' && 
+                board[row][0] == board[row][1] && 
+                board[row][1] == board[row][2]) {
+                    document.getElementById('bd').innerText += 'You won'
+            } else if (
+                board[1][col] != '' && 
+                board[0][col] == board[1][col] && 
+                board[1][col]  == board[2][col]) {
+                    document.getElementById('bd').innerText += 'You won'
+            } else if (
+                board[1][1] != '' && 
+                board[0][0] == board[1][1] &&
+                board[1][1] == board[2][2]) {
+                    document.getElementById('bd').innerText += 'You won'
+            } else if (
+                board[1][1] != '' && 
+                board[0][2] == board[1][1] &&
+                board[1][1] == board[2][0]) {
+                    document.getElementById('bd').innerText += 'You won'
+            }
+            updateView(board);
+        }
+        
+
+
+    </script>
+</body>
+</html>

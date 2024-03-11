@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cw {
+        position: fixed;
+        z-index: -1;
+        }
+
+        body {
+        margin: 0;
+        padding: 0;
+        background-color: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cw"></canvas>
+  
+    <script>
+        const canvas = document.getElementById("cw");
+        const context = canvas.getContext("2d");
+
+        const cursor = {
+        x: innerWidth / 2,
+        y: innerHeight / 2,
+        };
+
+        let particlesArray = [];
+
+
+
+        //controlls
+        var amounts = 5000
+        var MinSpeed = 0.009
+        var MaxSpeed = 0.015
+        var size = 0
+        var color = "random"
+        var MapSize = 450
+        var fade = 50
+        // 0 = 1 startpoint, 1 = half circle, 2 = full circle
+        var Position = 2
+
+        generateParticles(amounts);
+        setSize();
+        anim();
+        
+        function generateParticles(amount) {
+            
+            for (let i = 0; i < amount; i++) {
+                speed = Math.random() * (MaxSpeed - MinSpeed)
+                particlesArray[i] = new Particle(
+                    innerWidth / 0,
+                    innerHeight / 0,
+                    size,
+                    generateColor(),
+                    speed
+                );
+            }
+        }
+
+        function generateColor() {
+            let finalHexString = color
+            if (color == "random")  {  
+                let hexSet = "0123456789ABCDEF";
+                finalHexString = "#";
+                for (let i = 0; i < 6; i++) {
+                    finalHexString += hexSet[Math.ceil(Math.random() * 15)];
+                }
+            }
+            return finalHexString;
+        }
+
+        function setSize() {
+        canvas.height = innerHeight;
+        canvas.width = innerWidth;
+        }
+
+        function Particle(x, y, particleTrailWidth, strokeColor, rotateSpeed) {
+            this.x = x;
+            this.y = y;
+            this.particleTrailWidth = particleTrailWidth;
+            this.strokeColor = strokeColor;
+            this.theta = Math.random() * Math.PI * Position;
+            this.rotateSpeed = rotateSpeed;
+            this.t = Math.random() * MapSize;
+            this.rotate = () => {
+                const ls = {
+                x: this.x,
+                y: this.y,
+                };
+                this.theta += this.rotateSpeed;
+                this.x = cursor.x + Math.cos(this.theta) * this.t;
+                this.y = cursor.y + Math.sin(this.theta) * this.t;
+                context.beginPath();
+                context.lineWidth = this.particleTrailWidth;
+                context.strokeStyle = this.strokeColor;
+                context.moveTo(ls.x, ls.y);
+                context.lineTo(this.x, this.y);
+                context.stroke();
+            };
+        }
+        
+        function anim() {
+            requestAnimationFrame(anim);
+            context.fillStyle = "rgb(0 0 0 / " + fade + "%)";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            particlesArray.forEach((particle) => particle.rotate());
+        }
+
+
+    </script>
+</body>
+</html>

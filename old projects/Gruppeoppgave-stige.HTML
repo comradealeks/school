@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #70e0f6;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(9, 60px);
+            grid-template-rows: repeat(10, 60px);
+
+        }
+
+        .box {
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .box_NoLadder {
+            background-color: rgb(249, 249, 91);
+        }
+
+        .box_up {
+            background-color: rgb(41, 175, 52);
+        }
+
+        .box_upTo {
+            background-color: rgb(170, 255, 177);
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .box_down {
+            background-color: rgb(243, 106, 68);
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .box_downTo {
+            background-color: rgb(244, 171, 151);
+        }
+
+        .number {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            font-size: small;
+        }
+
+        #brikke {
+            margin: 2px;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: blue;
+        }
+        #Terning {
+            height: 80px;
+            width: 100px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="board" id="container"></div>
+    <button onclick="terning()" id="Terning">Start</button>
+
+    <script>
+        var colonner = 9;
+        var rader = 10;
+        var mengde = colonner * rader;
+        var listetall = 0;
+        var listetall2 = 0;
+        var position = 0
+        var NyBrikkePos = 0
+        const stiger = [
+            ["down", 70, 87],
+            ["up", 68, 85],
+            ["up", 65, 82],
+            ["up", 49, 79],
+            ["down", 37, 56],
+            ["up", 43, 62],
+            ["up", 36, 52],
+            ["down", 30, 42],
+            ["down", 12, 74],
+            ["up", 1, 40],
+            ["down", 3, 33],
+            ["down", 5, 24],
+            ["up", 8, 10],
+            ["nope", 0, 0],
+        ];
+
+        createBoard()
+
+        function createBoard(brikkePos) {
+            deleteBoard()
+            for (let StartRad = 1; StartRad <= rader; StartRad++) {
+                if (StartRad != 1) {
+                    mengde = mengde - 9;
+                };
+                for (let StartCollonne = 1; StartCollonne <= colonner; StartCollonne++) {
+                    let direction = getLadderFrom(mengde)
+                    document.getElementById("container").innerHTML += /*HTML*/ `
+                    <div id='div_${mengde}' class='box box_${direction[0]}'>${direction[1]}<span class='number'>${mengde}</span> </div>
+                    `;
+                    direction2 = PlaceLadderAt(mengde)
+                    climbs = climb(brikkePos, direction, direction2)
+                    if (climbs != undefined) {
+                        NyBrikkePos = climbs
+                        console.log(climbs)
+                    }
+                    if (StartCollonne != colonner) {
+                        if (StartRad % 2) {
+                            mengde--;
+                        } else {
+                            mengde++;
+                        };
+                    }
+                }
+            }
+            return NyBrikkePos
+        }
+        function deleteBoard() {
+            document.getElementById("container").innerHTML = ``
+        }
+
+        lagBrikke(position, 0)
+        function terning() {
+            var kast = Math.floor(Math.random() * 6) + 1;
+            lagBrikke(position, kast)
+            if (kast == 1) {
+                document.getElementById("Terning").innerHTML = "⚀"
+            } else if (kast == 2) {
+                document.getElementById("Terning").innerHTML = '⚁'
+            } else if (kast == 3) {
+                document.getElementById("Terning").innerHTML = '⚂'
+            } else if (kast == 4) {
+                document.getElementById("Terning").innerHTML = '⚃'
+            } else if (kast == 5) {
+                document.getElementById("Terning").innerHTML = '⚄'
+            } else {
+                document.getElementById("Terning").innerHTML = '⚅'
+            }
+        }
+        function lagBrikke(pos, terningkast) {
+            let NyPosition = pos + terningkast
+            mengde = colonner * rader;
+            listetall = 0;
+            listetall2 = 0;
+            var stige = createBoard(NyPosition)
+            if (NyPosition > 90) {
+                    over = NyPosition - 90
+                    NyPosition = 90 - over
+            } else if (NyPosition == 90) {
+                mengde = colonner * rader;
+                listetall = 0;
+                listetall2 = 0;
+                position = 0
+                NyBrikkePos = 0
+                document.getElementById("container").innerHTML = /*HTML*/`
+                <div> Du har vunnet!</div>`;
+                document.getElementById("Terning").innerText= "Start"
+            }
+            if ((stige[0] != undefined) && (stige[0] != 0) && (NyPosition == stige[1])) {NyPosition = parseInt(stige[0]);}
+            
+
+            if (pos != 0) {slettBrikke(pos)}
+            if (NyPosition != 0) {
+
+
+                let DivID = "div_" + NyPosition
+                document.getElementById(DivID);
+                document.getElementById(DivID).innerHTML = `
+                <div id="brikke"></div>
+                <span class="number">${NyPosition}</span>
+                `;
+                position = NyPosition
+            }
+        }
+
+        function climb(brikkepos, pos, neg) {
+            let stigePos = pos[1].split(' ')
+            let stigeNeg = neg[1].split(' ')
+            let up = stigePos[1]
+            let down = stigeNeg[1]
+            let squareNumPos = pos[2]
+            let squareNumNeg = neg[2]
+            let Newpos = brikkepos
+
+            if ((brikkepos == squareNumPos) && (stigePos[0] == "Til")) {
+                Newpos = up
+                return [Newpos, squareNumPos]
+            } else if ((brikkepos == squareNumNeg) && (stigeNeg[0] == "Til")) {
+                Newpos = down
+                return [Newpos, squareNumNeg]
+            }
+            
+        } 
+
+
+        function slettBrikke(pos) {
+            let DivID = "div_" + pos;
+            let brikke = document.getElementById("brikke")
+            if (brikke != null) {
+                brikke.remove()
+            }
+        }
+
+        function getLadderFrom(squareNr) {
+            let direction = "NoLadder"
+            let LadderTo = ""
+            if (stiger[listetall][1] == squareNr) {
+                if (stiger[listetall][0] == "up") {
+                    direction = "up"
+                    LadderTo = "Til " + stiger[listetall][2]
+                } else {
+                    direction = "downTo"
+                }
+                listetall++
+            }
+            const smolList = [direction, LadderTo, squareNr]
+            return smolList
+        }
+        function PlaceLadderAt (squareNr) {
+            let DivID = "div_" + stiger[listetall2][2]
+            let square = stiger[listetall2][2]
+            let LadderFrom = ""
+            if (stiger[listetall2][1] == squareNr) {
+                if (stiger[listetall2][0] == "up") {
+                    document.getElementById(DivID).className = "box_upTo"
+                } else {
+                    document.getElementById(DivID).className = "box_down"
+                    LadderFrom = "Til " + stiger[listetall2][1]
+                    document.getElementById(DivID).innerHTML += LadderFrom
+                }
+                listetall2++
+            }
+            const smolList2 = [0, LadderFrom, square]
+            return smolList2
+        }
+
+    </script>
+</body>
+
+</html>

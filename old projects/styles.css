@@ -1,0 +1,67 @@
+body {
+    margin-left: 20px;
+}
+
+.card {
+    width:500px;
+    background-color: lightgray;
+    border: 1px solid darkgray;
+    margin: 10px;
+}
+.innerCard{
+    padding: 10px;
+}
+
+.img{
+    width: 448px;
+    height: 500px;
+}
+
+.img2{
+    width: 248px;
+    height: 300px;
+}
+
+.img3{
+    width: auto;
+    height: 300px;
+}
+
+.button{
+    width: 500px;
+    height: 50px;
+}
+
+.bodies{
+    display: flex;
+    flex-direction: column;
+    align-items:center
+}
+.header {
+    color: white;
+    text-align: center;
+    font-size: x-large;
+    padding: 1% solid gray;
+    user-select: none;
+}
+.green {
+    background-color: green;
+}
+.yellow {
+    background-color: rgb(255, 208, 0);
+}
+.red {
+    background-color: red;
+}
+.blue {
+    background-color: blue;
+}
+.black {
+    background-color: black;
+}
+.orange {
+    background-color: orange;
+}
+.white {
+    background-color: white;
+}

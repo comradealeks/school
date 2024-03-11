@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Game styles.css">
+    <script src="Checkers.js"></script>
+    <script src="Connect four.js"></script>
+    <script src="Chess.js"></script>
+</head>
+<style></style>
+<body>
+    <div id="stars-container"></div>
+    <div id="ultimateTitle" class="title"></div>
+    <div id="all">
+        <div id="st_screen" class="start">
+            <div style="font-size: 80px; color: white">what game would you like to play?</div>
+            <div id="buttons" class="start button_center">
+            </div>
+        </div>
+
+        <button id="reload" onclick="location.reload()" style="visibility: hidden">Back to selection</button>
+        
+        <div id="Title" class="title"></div>
+        <div id="winneris" class="title"></div>
+
+        <div id='div_grid' class="grid"></div>
+        <div id="player"></div>
+        <div id="playercolor"></div>
+
+
+
+    </div>
+    <script> 
+    //this one creates stars in the background
+        
+        createStars(); 
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.animationDelay = (Math.random() * 10) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+    //small script to create the buttons and fix the layout of the starting screen and to add more games
+        const games = [];
+        games.push(
+            ["Connect four", 'circle', 'blue', 6, 7, 'white'], 
+            ["Checkers", 'box', '#F0F0F0', 8, 8, 'red', 'black'],
+            ["Chess", 'box', '#F0F0F0', 8, 8, 'RGB(240, 217, 181)', 'RGB(181, 136, 99'],
+            )
+
+        StartButtons()
+        function StartButtons() {
+            for(let number = 0; number < games.length; number++) {
+                let game = games[number];
+                let elements = game.slice(0).map(element => "'" + element + "'").join(", ");
+
+                button = document.createElement("button");
+                button.setAttribute("id", game[0]);
+                button.setAttribute("onclick", "Board_create(" + elements + ")");
+                button.textContent = game[0];
+                buttons.appendChild(button);
+            }
+        }
+
+
+    //functions to create the respective games board
+
+        function Board_create(name, grid_form, background_color, numRows, numColumns, grid_color1, grid_color2){
+            st_screen.remove()
+            document.getElementById('reload').style.visibility='visible';
+
+            //automaticly changing the style of the grid to fit the grid size and type
+            var auto_amount = 'auto '.repeat(numColumns);
+
+            document.getElementById("div_grid").style.cssText = `
+            grid-template-columns: ${auto_amount};
+            background: ${background_color};
+            `;
+
+            //changing title and such
+            document.getElementById("Title").innerText=name;
+
+            //creating the grid network
+            for (let rownumber = 1; rownumber <= numRows; rownumber++) {
+                for (let colnumber = 1; colnumber <= numColumns; colnumber++) {
+                    let div = document.createElement("div");
+                    divid = rownumber + '_' + colnumber;
+                    div.setAttribute("id", "div_" + divid);
+                    div.setAttribute("style", "background-color: " + grid_color(rownumber, colnumber, grid_form, grid_color1, grid_color2));
+                    div.setAttribute("class", grid_form);
+
+                    let functionName = name + 'text';
+                    functionName = functionName.replace(/\s/g, '');
+
+                    if (typeof window[functionName] === 'function') {
+                        window[functionName](div, numRows, numColumns, rownumber, colnumber, divid);
+                    } else {
+                        console.log('Function ' + functionName + ' does not exist.');
+                    }
+                    
+                    div_grid.appendChild(div); 
+                }
+            }
+        }
+
+        // this chooses a grid color based on layout
+        var counter = 1;
+        function grid_color(rownumber, colnumber, grid_form, grid_color1, grid_color2) {
+            if (grid_form == 'box') {
+                if (rownumber % 2 === 0 && colnumber == 1) {
+                    counter = 2
+                } else if (rownumber % 2 !== 0 && colnumber == 1) {
+                    counter = 1
+                }
+                
+                if (counter == 1){
+                    grid_colors = grid_color1
+                    counter = 2
+                } else {
+                    grid_colors = grid_color2
+                    counter = 1
+                }
+            } else if (grid_form == 'circle') {
+                grid_colors = grid_color1
+            }
+            return(grid_colors)
+        }
+
+
+    </script>
+</body>
+</html>
